@@ -121,7 +121,7 @@ def register():
             return redirect('/')
         db.close()
 
-    return render_template('registration.html')
+    return render_template('registration.html', form=form)
 
 
 @app.route('/works', methods=['GET'])
@@ -163,4 +163,7 @@ def work_create():
 
 init_works()
 app.run('127.0.0.1', port=6789, debug=True)
+
+
+
 
