@@ -104,7 +104,7 @@ def register():
     if form.validate_on_submit():
         data = form.data
         username = data['username']
-        password = md5(data['password'])
+        password = generate_password_hash(data['password'])
         rename = """
             select * from users where username='%s'
             """
