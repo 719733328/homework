@@ -20,7 +20,7 @@ from common import login_required, generate_password_hash
 import  threading
 import queue
 import schedule
-import time
+import time, datetime
 
 
 db = pymysql.connect(host="127.0.0.1", user="root", passwd='root', db='homework')
@@ -149,9 +149,11 @@ def work_create():
         data = form.data
         title = data['title']
         sql_insert = """
-            insert into works(user_id, title) values('%s','%s')
+            insert into works(user_id, title, time) values('%s','%s', '%s')
         """
-        cur.execute(sql_insert % (session.get('uid'), title))
+        dt=datetime.datetime.now()
+        dt_now=dt.strftime('%Y-%m-%d %H:%M:%S')
+        cur.execute(sql_insert % (session.get('uid'), title, dt_now))
         db.commit()
         add_job(cur.lastrowid)
         return redirect('/works');
