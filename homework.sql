@@ -11,7 +11,7 @@
  Target Server Version : 80015
  File Encoding         : 65001
 
- Date: 23/10/2019 13:58:31
+ Date: 23/10/2019 14:14:58
 */
 
 SET NAMES utf8mb4;
@@ -37,7 +37,8 @@ CREATE TABLE `works` (
   `user_id` int(11) NOT NULL,
   `status` tinyint(4) DEFAULT '0',
   `title` varchar(255) DEFAULT NULL,
+  `time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
 
 SET FOREIGN_KEY_CHECKS = 1;
