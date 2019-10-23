@@ -159,9 +159,8 @@ def work_create():
 
 
 
-
-
 init_works()
+
 app.run('127.0.0.1', port=6789, debug=True)
 
 
