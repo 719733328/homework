@@ -68,7 +68,7 @@ class RegisterForm(FlaskForm):
     )
 
     submit = SubmitField(
-        label="登录",
+        label="注册",
         render_kw={
             "class": "btn btn-primary btn-flat",
         }
