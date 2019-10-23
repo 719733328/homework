@@ -16,7 +16,7 @@ from wtforms import StringField,PasswordField,SubmitField
 from wtforms.validators import DataRequired,ValidationError
 from forms import LoginForm, RegisterForm, PostWorkForm
 from common import login_required, generate_password_hash
-from work import add_job, init_works
+
 import  threading
 import queue
 import schedule
@@ -123,8 +123,9 @@ def register():
 
     return render_template('registration.html')
 
-@login_required
+
 @app.route('/works', methods=['GET'])
+@login_required
 def works():
 
     sql = """
@@ -139,8 +140,9 @@ def works():
     results = cur.fetchall()
     return render_template('works.html', data=results, status=status)
 
-@login_required
+
 @app.route('/work_create', methods=['GET', 'POST'])
+@login_required
 def work_create():
     form = PostWorkForm()
     if form.validate_on_submit():
