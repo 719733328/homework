@@ -7,14 +7,11 @@ from wtforms.validators import DataRequired,ValidationError
 
 class LoginForm(FlaskForm):
     username = StringField(
-        # 标签
         label="账号",
-        # 验证器
         validators=[
             DataRequired('请输入用户名')
         ],
         description="账号",
-        # 附加选项,会自动在前端判别
         render_kw={
             "class":"form-control",
             "placeholder":"请输入账号!",
@@ -23,15 +20,11 @@ class LoginForm(FlaskForm):
     )
 
     password = PasswordField(
-        # 标签
         label="密码",
-        # 验证器
         validators=[
             DataRequired('请输入密码')
         ],
         description="密码",
-
-        # 附加选项(主要是前端样式),会自动在前端判别
         render_kw={
             "class": "form-control",
             "placeholder": "请输入密码!",
@@ -49,14 +42,11 @@ class LoginForm(FlaskForm):
 
 class RegisterForm(FlaskForm):
     username = StringField(
-        # 标签
         label="账号",
-        # 验证器
         validators=[
             DataRequired('请输入用户名')
         ],
         description="账号",
-        # 附加选项,会自动在前端判别
         render_kw={
             "class":"form-control",
             "placeholder":"请输入账号!",
@@ -65,15 +55,11 @@ class RegisterForm(FlaskForm):
     )
 
     password = PasswordField(
-        # 标签
         label="密码",
-        # 验证器
         validators=[
             DataRequired('请输入密码')
         ],
         description="密码",
-
-        # 附加选项(主要是前端样式),会自动在前端判别
         render_kw={
             "class": "form-control",
             "placeholder": "请输入密码!",
@@ -91,14 +77,11 @@ class RegisterForm(FlaskForm):
 
 class PostWorkForm(FlaskForm):
     title = StringField(
-        # 标签
         label="任务标题",
-        # 验证器
         validators=[
             DataRequired('请输入任务标题')
         ],
         description="任务标题",
-        # 附加选项,会自动在前端判别
         render_kw={
             "class":"form-control",
             "placeholder":"请输入任务标题!",
