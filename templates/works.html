@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <!-- <link rel="icon" href="static/assets/images/favicon.png" type="image/png"> -->
+  <title></title>
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/2.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="static/assets/css/style.css" rel="stylesheet"> -->
+    <!-- <link href="static/assets/css/responsive.css" rel="stylesheet"> -->
+
+
+</head>
+
+
+
+
+<body class="sticky-header">
+  <a href="/work_create">发布任务</a>
+  <ul>
+    <li>
+    {% for item in data %}
+        ID: {{ item[0] }}
+
+        状态: {{ status[item[2]] }}
+        标题：{{ item[3] }}
+        <br>
+    {% endfor %}
+    </li>
+  </ul>
+</body>
+
+<script>
+
+</script>
+
+
+</html>
