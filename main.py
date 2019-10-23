@@ -37,8 +37,6 @@ def job():
         """
         w = work_queue.get(block=False)
         if w:
-
-            print("执行 %s" % (str(w), ))
             cur.execute(sql_update % (w,))
             db.commit()
 
@@ -51,20 +49,17 @@ def job():
             work_queue.task_done()
         # work_queue.task_done()
 
-
 def add_job(work):
     print("add job")
     print(work)
     work_queue.put(str(work))
     print(work_queue.qsize())
 
-
 def work_threading():
     while True:
         print("正在运行")
         schedule.run_pending()
         time.sleep(1)
-
 
 def init_works():
     sql = """select id,status,title from works where status='0' or  status='1' """
@@ -76,9 +71,6 @@ def init_works():
     schedule.every(5).seconds.do(job)
     worker_thread = threading.Thread(target=work_threading)
     worker_thread.start()
-
-
-
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
@@ -106,9 +98,6 @@ def login():
 
     return render_template('login.html', form=form)
 
-
-
-
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
@@ -134,10 +123,6 @@ def register():
 
     return render_template('registration.html')
 
-
-
-
-
 @login_required
 @app.route('/works', methods=['GET'])
 def works():
@@ -153,7 +138,6 @@ def works():
     n = cur.execute(sql % session.get('uid'))
     results = cur.fetchall()
     return render_template('works.html', data=results, status=status)
-
 
 @login_required
 @app.route('/work_create', methods=['GET', 'POST'])
@@ -176,7 +160,5 @@ def work_create():
 
 
 init_works()
-
-
 app.run('127.0.0.1', port=6789, debug=True)
 
