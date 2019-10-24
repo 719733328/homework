@@ -1,3 +1,6 @@
+# Homework
+![Image text](https://raw.github.com/719733328/repositpry/master/homework/images/question.jpg)
+
 # Install
 * pip install flask pymysql flask_wtf
 * 导入 homework.sql 到Mysql数据库

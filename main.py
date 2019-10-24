@@ -39,7 +39,6 @@ def job():
             if w:
                 th = threading.Thread(target=job_threading, args=(w,))
                 th.start()
-            # work_queue.task_done()
 
 def add_job(work):
     work_queue.put(str(work))
@@ -50,7 +49,7 @@ def work_threading():
         time.sleep(1)
 
 def init_works():
-    sql = """select id,status,title from works where status='0' or  status='1' """
+    sql = """ select id,status,title from works where status='0' or  status='1' """
     cur.execute(sql)
     results = cur.fetchall()
     for x in results:
