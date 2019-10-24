@@ -1,33 +1,17 @@
 # -*- coding: utf-8 -*-
-from flask import Flask, redirect, session
-from flask import request
+from flask import Flask, redirect, session, request
 from flask.templating import render_template
 from flask.helpers import url_for
-import pymysql
-import datetime
-import urllib
-import json
-import os
+import pymysql, time, datetime, urllib, json, os, random, threading, queue, schedule
 from multiprocessing import Process
-import time
-import random
-from flask_wtf import FlaskForm
-from wtforms import StringField,PasswordField,SubmitField
-from wtforms.validators import DataRequired,ValidationError
 from forms import LoginForm, RegisterForm, PostWorkForm
 from common import login_required, generate_password_hash
-
-import  threading
-import queue
-import schedule
-import time, datetime
 
 
 db = pymysql.connect(host="127.0.0.1", user="root", passwd='root', db='homework')
 cur = db.cursor()
 app = Flask(__name__)
 app.config['SECRET_KEY']=os.urandom(24)
-
 work_queue = queue.Queue(10)
 
 def job():
@@ -50,14 +34,10 @@ def job():
         # work_queue.task_done()
 
 def add_job(work):
-    print("add job")
-    print(work)
     work_queue.put(str(work))
-    print(work_queue.qsize())
 
 def work_threading():
     while True:
-        print("正在运行")
         schedule.run_pending()
         time.sleep(1)
 
@@ -123,7 +103,6 @@ def register():
 
     return render_template('registration.html', form=form)
 
-
 @app.route('/works', methods=['GET'])
 @login_required
 def works():
@@ -149,7 +128,7 @@ def work_create():
         data = form.data
         title = data['title']
         sql_insert = """
-            insert into works(user_id, title, time) values('%s','%s', '%s')
+            insert into works(user_id, title, time) values('%s','%s','%s')
         """
         dt=datetime.datetime.now()
         dt_now=dt.strftime('%Y-%m-%d %H:%M:%S')
@@ -162,8 +141,8 @@ def work_create():
 
 
 init_works()
-
-app.run('127.0.0.1', port=6789, debug=True)
+if __name__ == '__main__':
+    app.run('127.0.0.1', port=6789, debug=True)
 
 
 

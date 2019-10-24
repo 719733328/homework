@@ -15,8 +15,8 @@
 </head>
 
 <body class="sticky-header">
+<div class="container">
 
-  <section class="login-section">
       {% for msg in get_flashed_messages() %}　　　　　　　　　
                 <p class="login-box-msg" style="color: red;">{{ msg }}</p>　　　
                 {% endfor %}
@@ -36,6 +36,7 @@
                 {{ form.csrf_token }}　
            </div>
        </form>
+</div>
 
 </body>
 
