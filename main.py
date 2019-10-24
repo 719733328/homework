@@ -7,31 +7,39 @@ from multiprocessing import Process
 from forms import LoginForm, RegisterForm, PostWorkForm
 from common import login_required, generate_password_hash
 
-
 db = pymysql.connect(host="127.0.0.1", user="root", passwd='root', db='homework')
 cur = db.cursor()
 app = Flask(__name__)
-app.config['SECRET_KEY']=os.urandom(24)
+app.config['SECRET_KEY'] = os.urandom(24)
 work_queue = queue.Queue(10)
+lock = threading.Lock()
+
+def job_threading(w):
+    sql_update = """
+            UPDATE works SET status = '1' WHERE status='0' && id = '%s'
+        """
+    if w:
+        lock.acquire()
+        cur.execute(sql_update % (w,))
+        db.commit()
+        lock.release()
+        time.sleep(10)
+        sql_update = """
+            UPDATE works SET status = '2' WHERE status = '1' && id = '%s'
+        """
+        lock.acquire()
+        cur.execute(sql_update % (w, ))
+        db.commit()
+        lock.release()
 
 def job():
     if not work_queue.empty():
-        sql_update = """
-            UPDATE works SET status = '1' WHERE status='0' && id = '%s'
-        """
-        w = work_queue.get(block=False)
-        if w:
-            cur.execute(sql_update % (w,))
-            db.commit()
-
-            time.sleep(10)
-            sql_update = """
-                UPDATE works SET status = '2' WHERE status = '1' && id = '%s'
-            """
-            cur.execute(sql_update % (w, ))
-            db.commit()
-            work_queue.task_done()
-        # work_queue.task_done()
+        while not work_queue.empty():
+            w = work_queue.get(block=True)
+            if w:
+                th = threading.Thread(target=job_threading, args=(w,))
+                th.start()
+            # work_queue.task_done()
 
 def add_job(work):
     work_queue.put(str(work))
@@ -47,7 +55,6 @@ def init_works():
     results = cur.fetchall()
     for x in results:
         add_job(x[0])
-
     schedule.every(5).seconds.do(job)
     worker_thread = threading.Thread(target=work_threading)
     worker_thread.start()
@@ -55,10 +62,8 @@ def init_works():
 @app.route('/', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
-
     if form.validate_on_submit():
         data = form.data
-        print("提交")
         username=data['username']
         password=data['password']
         password=generate_password_hash(password)
@@ -68,6 +73,7 @@ def login():
 
         if results:
             uid, uname, _ = results
+            print(uid, uname);
             session['username'] = uname
             session['uid'] = uid
             return redirect('/works')
@@ -75,7 +81,6 @@ def login():
         else:
             return redirect('/register')
             db.close()
-
     return render_template('login.html', form=form)
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -100,13 +105,11 @@ def register():
         else:
             return redirect('/')
         db.close()
-
     return render_template('registration.html', form=form)
 
 @app.route('/works', methods=['GET'])
 @login_required
 def works():
-
     sql = """
         select * from works where user_id='%d'
         """
@@ -118,7 +121,6 @@ def works():
     n = cur.execute(sql % session.get('uid'))
     results = cur.fetchall()
     return render_template('works.html', data=results, status=status)
-
 
 @app.route('/work_create', methods=['GET', 'POST'])
 @login_required
@@ -138,9 +140,8 @@ def work_create():
         return redirect('/works');
     return render_template('works_create.html', form=form)
 
-
-
 init_works()
+
 if __name__ == '__main__':
     app.run('127.0.0.1', port=6789, debug=True)
 

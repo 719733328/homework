@@ -11,18 +11,19 @@
     <link href="https://cdn.bootcss.com/twitter-bootstrap/2.3.2/css/bootstrap.min.css" rel="stylesheet">
 
 
-
 </head>
 
 <body class="sticky-header">
 <div class="container">
 
-      {% for msg in get_flashed_messages() %}　　　　　　　　　
+      <div class="row">
+        <div class="col-md-3">
+          {% for msg in get_flashed_messages() %}　　　　　　　　　
                 <p class="login-box-msg" style="color: red;">{{ msg }}</p>　　　
                 {% endfor %}
         <form action="/work_create" method="post">
            <div class="form-group">
- {{ form.title }}　　　　　　　　　
+                                {{ form.title }}　　　　　　　　　
                                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                                 {% for err in form.title.errors %}　　　　　　　
                                     <div class="col-md-12">
@@ -36,6 +37,8 @@
                 {{ form.csrf_token }}　
            </div>
        </form>
+        </div>
+      </div>
 </div>
 
 </body>

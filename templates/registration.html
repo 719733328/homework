@@ -15,14 +15,14 @@
 <body>
        <div class="container">
            <div class="row">
-                 {% for msg in get_flashed_messages() %}　　　　　　　　　
+                <div class="col-md-3">
+                   {% for msg in get_flashed_messages() %}　　　　　　　　　
                 <p class="login-box-msg" style="color: red;">{{ msg }}</p>　　　
                 {% endfor %}
 
-                <h2 class="header-title text-center">注册</h2>
+                <h2>注册</h2>
 
-                      <div class="text-center">
-                         <form action="/register" method="post">
+                     <form action="/register" method="post">
                            <div class="form-group">
                                {{ form.username }}　　　　　　　　　
                                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
@@ -49,12 +49,11 @@
                               {{ form.csrf_token }}　
                            </div>
                        </form>
-                      </div>
 
-
-                         <div class="form-group text-center">
-                             以及有账号?  <a type="submit" href="/">登录</a>
+                         <div class="form-group">
+                             已经有账号?  <a type="submit" href="/">登录</a>
                          </div>
+                </div>
 
 
            </div>

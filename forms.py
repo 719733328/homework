@@ -4,7 +4,6 @@ from functools import wraps
 from wtforms import StringField,PasswordField,SubmitField
 from wtforms.validators import DataRequired,ValidationError
 
-
 class LoginForm(FlaskForm):
     username = StringField(
         label="账号",
@@ -39,7 +38,6 @@ class LoginForm(FlaskForm):
         }
     )
 
-
 class RegisterForm(FlaskForm):
     username = StringField(
         label="账号",
@@ -73,7 +71,6 @@ class RegisterForm(FlaskForm):
             "class": "btn btn-primary btn-flat",
         }
     )
-
 
 class PostWorkForm(FlaskForm):
     title = StringField(

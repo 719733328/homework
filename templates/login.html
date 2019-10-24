@@ -13,14 +13,15 @@
 
 </head>
 
-<body class="sticky-header">
+<body>
  <div class="container">
            <div class="row">
-                 {% for msg in get_flashed_messages() %}　　　　　　　　　
+                <div class="col-md-3">
+                   {% for msg in get_flashed_messages() %}　　　　　　　　　
                 <p class="login-box-msg" style="color: red;">{{ msg }}</p>　　　
                 {% endfor %}
 
-                <h2 class="header-title text-center">登录</h2>
+                <h2 >登录</h2>
 
                        <form action="/" method="post">
                            <div class="form-group">
@@ -51,9 +52,10 @@
                        </form>
 
 
-                         <div class="form-group text-center">
+                         <div class="form-group">
                              还没有账户?  <a type="submit" href="/register">注册</a>
                          </div>
+                </div>
 
 
            </div>
