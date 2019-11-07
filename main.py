@@ -16,7 +16,7 @@ lock = threading.Lock()
 
 def job_threading(w):
     sql_update = """
-            UPDATE works SET status = '1' WHERE status='0' && id = '%s'
+            UPDATE works SET status = '1' WHERE status='0' AND id = '%s'
         """
     if w:
         lock.acquire()
@@ -25,7 +25,7 @@ def job_threading(w):
         lock.release()
         time.sleep(10)
         sql_update = """
-            UPDATE works SET status = '2' WHERE status = '1' && id = '%s'
+            UPDATE works SET status = '2' WHERE status = '1' AND id = '%s'
         """
         lock.acquire()
         cur.execute(sql_update % (w, ))
@@ -33,12 +33,12 @@ def job_threading(w):
         lock.release()
 
 def job():
-    if not work_queue.empty():
-        while not work_queue.empty():
-            w = work_queue.get(block=True)
-            if w:
-                th = threading.Thread(target=job_threading, args=(w,))
-                th.start()
+    # if not work_queue.empty():
+    while not work_queue.empty():
+        w = work_queue.get(block=True)
+        if w:
+            th = threading.Thread(target=job_threading, args=(w,))
+            th.start()
 
 def add_job(work):
     work_queue.put(str(work))
@@ -49,7 +49,7 @@ def work_threading():
         time.sleep(1)
 
 def init_works():
-    sql = """ select id,status,title from works where status='0' or  status='1' """
+    sql = """ select id,status,title from works where status='0' or status='1' """
     cur.execute(sql)
     results = cur.fetchall()
     for x in results:
