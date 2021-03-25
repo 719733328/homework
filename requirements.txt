@@ -92,7 +92,7 @@ python-dateutil==2.8.0
 python-slugify==3.0.3
 pytoml==0.1.21
 pytz==2019.1
-PyYAML==5.1.2
+PyYAML==5.4
 pyzmq==18.0.2
 Quart==0.6.13
 queuelib==1.5.0
