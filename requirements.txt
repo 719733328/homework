@@ -125,7 +125,7 @@ w3lib==1.21.0
 wcwidth==0.1.7
 webencodings==0.5.1
 Werkzeug==0.15.5
-WsgiDAV==3.0.0
+WsgiDAV==4.1.0
 wsproto==0.14.1
 WTForms==2.2.1
 xmltodict==0.12.0
